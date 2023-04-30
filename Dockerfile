@@ -48,6 +48,7 @@ FROM ubuntu:22.10
 
 RUN apt-get update && \
     apt-get install -y \
+      bc \
       openjdk-18-jre-headless
 
 COPY --from=jre_builder /usr/src/n-queens/target/n-queens-1.0-SNAPSHOT.jar nqueens.jar

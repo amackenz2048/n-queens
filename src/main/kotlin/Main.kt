@@ -165,5 +165,5 @@ suspend fun main(args: Array<String>) {
     }
 
     println("Num solutions for ${N}x${N} grid: ${solution.totalSolutions}")
-    println("Solved in ${(end - start) / 1000}s")
+    println("Solved in ${(end - start) / 1000.0}s")
 }
