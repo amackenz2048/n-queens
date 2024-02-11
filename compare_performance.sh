@@ -5,7 +5,7 @@ QUEENS_EXE="nqueens"
 
 # Complexity goes up as the factorial of the number of queens, increment judiciously.
 # 15 queens is solved on the JVM in ~2 seconds on a 12th Gen Core i7-12700H with 14 cores (20 threads).
-MAX_QUEENS=15
+MAX_QUEENS=16
 
 echo "Running tests with max queens: ${MAX_QUEENS}"
 echo "Running JVM version."

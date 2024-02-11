@@ -1,4 +1,5 @@
-FROM ubuntu:22.10 as jre_builder
+#######################################################################################
+FROM ubuntu:23.04 as jre_builder
 
 RUN apt-get update && \
     apt-get install -y \
@@ -18,7 +19,8 @@ COPY src src
 
 RUN --mount=type=cache,target=/root/.m2 ./mvnw package
 
-FROM ubuntu:22.10 as native_builder
+#######################################################################################
+FROM ubuntu:23.04 as native_builder
 
 RUN apt-get update && \
     apt-get install -y \
@@ -28,8 +30,9 @@ RUN apt-get update && \
       zip \
       unzip
 
-RUN curl -sL https://get.graalvm.org/jdk > install_graal.sh
-RUN bash install_graal.sh
+RUN curl -s "https://get.sdkman.io" | bash 
+RUN /bin/bash -c "source /root/.sdkman/bin/sdkman-init.sh && sdk install java 21.0.2-graal"
+
 RUN mkdir /usr/src/n-queens
 WORKDIR /usr/src/n-queens
 
@@ -39,12 +42,14 @@ RUN chmod +x mvnw
 COPY pom.xml pom.xml
 COPY src src
 
-ENV PATH="/graalvm-ce-java17-22.3.1/bin:$PATH"
-ENV JAVA_HOME="/graalvm-ce-java17-22.3.1"
+#ENV JAVA_HOME="/graalvm-ce-java17-22.3.1"
+ENV PATH="/root/.sdkman/candidates/java/current/bin:${PATH}"
+ENV JAVA_HOME="/root/.sdkman/candidates/java/current"
 
 RUN --mount=type=cache,target=/root/.m2 ./mvnw -Pnative package
 
-FROM ubuntu:22.10
+#######################################################################################
+FROM ubuntu:23.04
 
 RUN apt-get update && \
     apt-get install -y \
